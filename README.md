@@ -3,6 +3,9 @@
 ```sh
 npm create astro@latest -- --template basics
 ```
+# PokeAstro
+
+Proyectro creado con la finalidad de probar las posibilidades del framework Astro 3.0 en conjunto con tailwind css y vanilla-tilt.js
 
 [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/basics)
 [![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/basics)
