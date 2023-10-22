@@ -1,0 +1,25 @@
+---
+import { type APIPokemonsResponse } from "../types/api";
+import CardPokemon from "./CardPokemon.astro";
+
+let URL = "https://pokeapi.co/api/v2/pokemon/?offset=0&limit=151";
+
+const res = await fetch(URL);
+const {
+  results: pokemons,
+  previous,
+  next,
+} = (await res.json()) as APIPokemonsResponse;
+---
+<div class="flex place-content-center">
+  <h1 class="font-bold sm:text-sm lg:text-base text-white py-8">PRIMERA GENERACIÓN</h1>
+</div>
+<div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+  {
+    pokemons.map((poke) => (
+      <article>
+        <CardPokemon url={poke.url} name={poke.name} />
+      </article>
+    ))
+  }
+</div>

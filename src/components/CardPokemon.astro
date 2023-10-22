@@ -1,0 +1,111 @@
+---
+import { type APIPokemonResponse } from "../types/api";
+interface Props {
+  url: string;
+  name: string;
+}
+interface TypeColors {
+  [key: string]: string[];
+}
+
+const { url, name } = Astro.props;
+
+const res = await fetch(url);
+const {
+  moves,
+  stats,
+  abilities,
+  base_experience,
+  height,
+  held_items,
+  id,
+  is_default,
+  location_area_encounters,
+  order,
+  types,
+  weight,
+  sprites,
+} = (await res.json()) as APIPokemonResponse;
+const typeColors: TypeColors = {
+  grass: ["bg-green-300", "bg-green-400"],
+  water: ["bg-blue-300", "bg-blue-400"],
+  fire: ["bg-red-300", "bg-red-400"],
+  normal: ["bg-slate-200", "bg-slate-300"],
+  bug: ["bg-lime-300", "bg-lime-400"],
+  poison: ["bg-violet-300", "bg-violet-400"],
+  electric: ["bg-yellow-300", "bg-yellow-400"],
+  ground: ["bg-yellow-600", "bg-yellow-700"],
+  fighting: ["bg-gray-300", "bg-gray-400"],
+  fairy: ["bg-pink-300", "bg-pink-400"],
+  psychic: ["bg-purple-300", "bg-purple-400"],
+  ghost: ["bg-purple-400", "bg-purple-500"],
+  ice: ["bg-blue-500", "bg-blue-600"],
+  rock: ["bg-stone-400", "bg-stone-500"],
+  dragon: ["bg-green-500", "bg-green-600"],
+  flying: ["bg-blue-200", "bg-blue-300"],
+  steel: ["bg-stone-500", "bg-stone-600"],
+};
+
+const primaryType = types[0].type.name;
+const secondaryType = types[1]?.type.name;
+const [bgPrimary, bgSecondary] = typeColors[primaryType] || [
+  "bg-gray-200",
+  "bg-gray-300",
+];
+const [bgThird, bgFourth] = typeColors[secondaryType] || [""];
+
+const newID = id.toString().padStart(3, "0");
+---
+
+<div
+  id="primary"
+  class=` flex max-w-sm place-content-center py-4 px-4 rounded-xl overflow-hidden shadow-lg ${bgPrimary}`
+  data-tilt data-tilt-glare data-tilt-max-glare="0.6" data-tilt-scale="0.9"
+>
+  <div id="secondary" class=`max-w-sm rounded overflow-hidden ${bgSecondary}`>
+    <img
+      class="w-full object-cover"
+      src=`https://assets.pokemon.com/assets/cms2/img/pokedex/full/${newID}.png`
+      alt={name}
+    />
+    <div class="px-6 py-4">
+      <p class="text-gray-200 font-bold text-lg">#{newID}</p>
+      <div class="font-bold text-xl mb-2 text-white capitalize">{name}</div>
+      <p class=`text-white text-base font-semibold mb-2`>
+        <span
+          class=`w-30 py-1 px-4 font-black mr-1 rounded-full text-center ${bgPrimary}`
+        >
+          {primaryType}
+        </span>
+        <span
+          class=`w-30 py-1 px-4 font-black rounded-full text-center ${bgThird}`
+        >
+          {secondaryType}
+        </span>
+      </p>
+      <!-- <p class="text-white text-base font-semibold mb-2">
+        Habilidades:
+        {
+          abilities.map((ab) => (
+            <span class="text-white">{ab.ability.name}</span>
+          ))
+        }
+      </p>
+      <p class="text-white text-base font-semibold">
+        Altura: {height} ft
+        <br />
+         Peso: {weight} lb
+      </p>
+    </div>
+    <div class="px-6 py-4">
+      {
+        stats.map((st) => (
+          <span class="inline-block bg-white rounded-full px-3 py-1 text-sm font-semibold text-red-300 mr-2 mb-2">
+            {st.stat.name === "special-attack"? "sp": st.stat.name === "special-defense" ? "sd" : st.stat.name} : {st.base_stat}
+          </span>
+        ))
+      }
+    </div> -->
+    </div>
+  </div>
+</div>
